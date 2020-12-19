@@ -1,0 +1,42 @@
+focal-desktop-arm64.iso
+sudo mkdir /Volumes/Ubuntu
+sudo hdiutil attach -nomount focal-desktop-arm64.iso
+/dev/disk4              FDisk_partition_scheme
+/dev/disk4s1            0xCD
+/dev/disk4s2            0xEF
+
+sudo hdiutil attach -nomount /Users/thuan/Downloads/focal-desktop-arm64.iso
+sudo mount -t cd9660 /dev/disk4 /Volumes/Ubuntu 
+open /Volumes/Ubuntu/casper
+
+cp vmlinuz vmlinuz.gz
+gunzip vmlinuz.gz
+
+mkdir /opt/tools
+cd /opt/tools
+git clone https://github.com/evansm7/vftool
+cd vftool && xcodebuild
+./build/Release/vftool
+./vftool -k vmlinuz -i initrd -d focal-desktop-arm64.iso -m 2048 -a "console=hvc0"
+
+open new terminal then put command as here screen /dev/ttys004
+
+#!bin/bash
+
+function setup_() {
+	sudo apt-get update
+
+	sudo apt-get install apt-transport-https  ca-certificates curl gnupg-agent software-properties-common
+
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+	sudo apt-key fingerprint 0EBFCD88
+
+	sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+	sudo apt-get update
+
+	sudo apt-get install docker-ce docker-ce-cli containerd.io
+}
+
+setup_
