@@ -1,0 +1,7 @@
+JDK_NAME=jdk1.8.0_271
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/${JDK_NAME}.jdk/Contents/Home
+export MAVE_HOME=/opt/tools/apache-maven-3.6.3/bin
+export GRADLE_HOME=/opt/tools/gradle-6.7.1/bin
+export PATH=$MAVEN_HOME:$PATH
+export PATH=$GRADLE_HOME:$PATH
+export PATH=$JAVA_HOME/bin:$PATH
